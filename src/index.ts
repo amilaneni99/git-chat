@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 import { GitService } from './services/git.service';
 import { KnowledgeGraphService } from './services/knowledge-graph.service';
 import { LLMService } from './services/llm.service';
+import fsPromise from 'fs/promises';
 import fs from 'fs';
-
+import path from 'path';
 dotenv.config();
 
 async function main() {
@@ -23,7 +24,7 @@ async function main() {
     }
 
     // Initialize services
-    const gitService = new GitService(repoPath);
+    const gitService = new GitService();
     const llmService = new LLMService(process.env.HUGGINGFACE_API_KEY || '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');
     const knowledgeGraphService = new KnowledgeGraphService(
         process.env.NEO4J_URI || 'neo4j+s://4ac00305.databases.neo4j.io',
@@ -33,15 +34,22 @@ async function main() {
     );
 
     try {
+        // Create temporary directory for cloning
+        const tempDir = path.join(process.cwd(), 'temp', Date.now().toString());
+        await fsPromise.mkdir(tempDir, { recursive: true });
+
         // Extract commit history
         console.log('Extracting commit history...');
-        const commits = await gitService.getCommitHistory();
+        const commits = await gitService.getCommitHistory(tempDir, 'https://github.com/openai/openai-go');
         console.log(`Found ${commits.length} commits`);
 
         // Create knowledge graph
         console.log('Creating knowledge graph...');
         await knowledgeGraphService.createCommitGraph(commits);
         console.log('Knowledge graph created successfully');
+
+        // Clean up temporary directory
+        await fsPromise.rm(tempDir, { recursive: true, force: true });
 
         // Example query
         const question = 'Who made the most commits?';
