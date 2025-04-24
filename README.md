@@ -6,7 +6,7 @@ This project extracts commit history from a Git repository, structures it into a
 
 - Git commit history extraction
 - Knowledge graph construction using Neo4j
-- Natural language querying using OpenAI's LLM
+- Natural language querying using HuggingFace's Inference APIs
 - Interactive command-line interface
 
 ## Prerequisites
@@ -30,10 +30,7 @@ This project extracts commit history from a Git repository, structures it into a
    NEO4J_PASSWORD=your_password
 
    # OpenAI Configuration
-   OPENAI_API_KEY=your_openai_api_key
-
-   # Git Repository Configuration
-   REPO_PATH=/path/to/your/repo
+   HUGGINGFACE_API_KEY=your_huggingface_api_key
    ```
 4. Build the project:
    ```bash
@@ -44,22 +41,17 @@ This project extracts commit history from a Git repository, structures it into a
 
 1. Start the application:
    ```bash
-   npm start
+   npx ts-node src/cli.ts
    ```
-2. Use natural language queries to explore the commit history
+2. Provide the git url of the repository you wish to analyse
+3. Use natural language queries to explore the commit history
 
 ## Project Structure
 
 ```
 src/
-├── config/         # Configuration files
 ├── models/         # Data models and types
 ├── services/       # Core services (Git, Neo4j, LLM)
-└── utils/          # Utility functions
+├── cli.ts          # CLI application interface
+├── index.ts        # Application interface to run in non-CLI mode
 ```
-
-## Development
-
-- `npm run dev` - Run in development mode
-- `npm run build` - Build the project
-- `npm run watch` - Watch for changes and rebuild 
