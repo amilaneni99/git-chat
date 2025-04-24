@@ -44,7 +44,7 @@ async function main() {
         const commits = await gitService.getCommitHistory(tempDir, repoUrl);
         
         // Build knowledge graph
-        console.log('Building knowledge graph...');
+        console.log('\nBuilding knowledge graph...');
         await knowledgeGraphService.createCommitGraph(commits);
         
         // Clean up temporary directory

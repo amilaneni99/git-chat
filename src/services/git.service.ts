@@ -27,6 +27,7 @@ export class GitService {
             const commits: Commit[] = await Promise.all(
                 log.all.map(async (commit) => {
                     // Get files changed in this commit
+                    console.log('Constructing commit object for commit:', commit.hash);
                     const files = await this.getCommitFiles(commit.hash);
 
                     return {
@@ -51,7 +52,6 @@ export class GitService {
 
     private async getCommitFiles(commitHash: string): Promise<FileChange[]> {
         try {
-            console.log('Getting files for commit:', commitHash);
             const diff = await this.git.show([commitHash, '--name-status', '--numstat']);
             const files: FileChange[] = [];
             const lines = diff.split('\n');
@@ -67,8 +67,6 @@ export class GitService {
                     });
                 }
             }
-
-            console.log('Found files:', files.length);
             return files;
         } catch (error) {
             console.error('Error in getCommitFiles:', error);
