@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import readline from 'readline';
 import { KnowledgeGraphService } from './services/knowledge-graph.service';
 import { LLMService } from './services/llm.service';
@@ -6,6 +7,7 @@ import path from 'path';
 import fs from 'fs/promises';
 
 async function main() {
+    // Initialize services
     const llmService = new LLMService(process.env.HUGGINGFACE_API_KEY || '');
     const knowledgeGraphService = new KnowledgeGraphService(
         process.env.NEO4J_URI || '',

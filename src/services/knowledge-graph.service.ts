@@ -1,6 +1,6 @@
-import neo4j, { Driver, Session } from 'neo4j-driver';
+import neo4j, { Driver } from 'neo4j-driver';
 import { LLMService } from './llm.service';
-import { Commit, KnowledgeGraphNode } from '../models/types';
+import { Commit } from '../models/types';
 
 export class KnowledgeGraphService {
   private driver: Driver;
@@ -77,17 +77,17 @@ export class KnowledgeGraphService {
     try {
       // Generate Cypher query using LLM
       const cypherQuery = await this.llmService.generateCypherQuery(question);
-      console.log('Generated Cypher Query:', cypherQuery);
       
       // Execute the query
       const result = await session.run(cypherQuery);
       const records = result.records.map(record => record.toObject());
-      console.log('Records:', records);
       
       // Interpret the results using LLM
       const interpretation = await this.llmService.interpretResults(question, records);
-      console.log('Interpretation:', interpretation);
       return interpretation;
+    } catch(error) {
+        console.error('Error querying knowledge graph:', error);
+        throw error;
     } finally {
       await session.close();
     }

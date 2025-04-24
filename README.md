@@ -13,7 +13,7 @@ An interactive command-line tool that allows you to query Git repository history
 
 - Node.js (v14 or higher)
 - Neo4j Database
-- OpenAI API key
+- Hugging Face API key
 
 ## Setup
 
@@ -23,16 +23,24 @@ npm install
 ```
 
 2. Set up environment variables:
-```bash
-export HUGGINGFACE_API_KEY='your-huggingface-api-key'
-export NEO4J_URI='your-neo4j-uri'
-export NEO4J_USER='your-neo4j-username'
-export NEO4J_PASSWORD='your-neo4j-password'
-```
+The application uses environment variables for configuration. You can set these up in two ways:
 
-3. Run the application:
+1. Using a `.env` file (recommended):
+   - Create a `.env` file in the project root
+   - Add your configuration variables
+   - The file is automatically loaded when the application starts
+
+2. Using system environment variables:
+   ```bash
+   export HUGGINGFACE_API_KEY='your-huggingface-api-key'
+   export NEO4J_URI='your-neo4j-uri'
+   export NEO4J_USER='your-neo4j-username'
+   export NEO4J_PASSWORD='your-neo4j-password'
+   ```
+
+3. Build the application:
 ```bash
-npx ts-node src/cli.ts
+npm run build
 ```
 
 ## Usage
