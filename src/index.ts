@@ -25,11 +25,11 @@ async function main() {
 
     // Initialize services
     const gitService = new GitService();
-    const llmService = new LLMService(process.env.HUGGINGFACE_API_KEY || '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');
+    const llmService = new LLMService(process.env.HUGGINGFACE_API_KEY || '');
     const knowledgeGraphService = new KnowledgeGraphService(
-        process.env.NEO4J_URI || 'neo4j+s://4ac00305.databases.neo4j.io',
-        process.env.NEO4J_USER || 'neo4j',
-        process.env.NEO4J_PASSWORD || 'F7LNXGSn99PEPvp-pKSVhzRWkLBtb0HkLpJxqrv8Igc',
+        process.env.NEO4J_URI || '',
+        process.env.NEO4J_USER || '',
+        process.env.NEO4J_PASSWORD || '',
         llmService
     );
 
